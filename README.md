@@ -5,5 +5,6 @@
 
 ### UI
 
--   Shadcn library
+-   Shadcn library - https://ui.shadcn.com/
 -   TailwindCSS
+-   Storybook
