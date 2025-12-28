@@ -1,11 +1,21 @@
 import ResponsiveDialog from '@/components/ResponsiveDialog/ResponsiveDialog';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
+import type { AddSubscriptionFormValues } from '../model';
+import { AddSubscriptionForm } from './AddSubscriptionForm';
 
-const AddSubscriptionDialog = () => {
+interface AddSubscriptionDialogProps {
+	onSubmit?: (values: AddSubscriptionFormValues) => void;
+}
+
+const AddSubscriptionDialog = ({ onSubmit }: AddSubscriptionDialogProps) => {
 	const [open, setOpen] = useState(false);
+
+	const handleSubmit = (values: AddSubscriptionFormValues) => {
+		onSubmit?.(values);
+		setOpen(false);
+	};
 
 	return (
 		<ResponsiveDialog
@@ -20,19 +30,7 @@ const AddSubscriptionDialog = () => {
 				</Button>
 			}
 		>
-			<form>
-				<Input
-					type="text"
-					placeholder="Название подписки"
-					className="w-full p-2 border rounded"
-				/>
-				<Input
-					type="number"
-					placeholder="Цена"
-					className="w-full p-2 border rounded"
-				/>
-				<Button onClick={() => setOpen(false)}>Сохранить</Button>
-			</form>
+			<AddSubscriptionForm onSubmit={handleSubmit} />
 		</ResponsiveDialog>
 	);
 };
