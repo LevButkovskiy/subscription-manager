@@ -27,7 +27,8 @@ export const DatePicker = ({
 	placeholder = 'Выберите дату',
 	disabled = false,
 	className,
-}: DatePickerProps) => {
+	...props
+}: DatePickerProps & React.ComponentProps<'button'>) => {
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
@@ -39,6 +40,7 @@ export const DatePicker = ({
 						!date && 'text-muted-foreground',
 						className,
 					)}
+					{...props}
 				>
 					<CalendarIcon className="mr-2 h-4 w-4" />
 					{date ? (
