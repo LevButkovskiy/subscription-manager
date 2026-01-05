@@ -10,24 +10,38 @@ import {
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import type { RegisterResponse } from '../api';
+import { useRegister } from '../lib/useRegister';
 import type { RegisterFormValues } from '../model';
 import { registerFormSchema } from '../model';
 
 interface RegisterFormProps {
-	onSubmit?: (values: RegisterFormValues) => void;
+	onSuccess?: (response: RegisterResponse) => void;
 }
 
-const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
+const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
 	const form = useForm<RegisterFormValues>({
 		resolver: zodResolver(registerFormSchema),
 	});
 
+	const { register, isLoading, error } = useRegister();
+
+	const handleSubmit = async (values: RegisterFormValues) => {
+		const response = await register(values);
+		onSuccess?.(response);
+	};
+
 	return (
 		<Form {...form}>
 			<form
-				onSubmit={onSubmit ? form.handleSubmit(onSubmit) : undefined}
+				onSubmit={form.handleSubmit(handleSubmit)}
 				className="space-y-4"
 			>
+				{error && (
+					<div className="text-sm text-destructive bg-destructive/10 p-2 rounded">
+						{error}
+					</div>
+				)}
 				<FormField
 					control={form.control}
 					name="email"
@@ -67,8 +81,8 @@ const RegisterForm = ({ onSubmit }: RegisterFormProps) => {
 						</FormItem>
 					)}
 				/>
-				<Button className="w-full" type="submit">
-					Зарегистрироваться
+				<Button className="w-full" type="submit" disabled={isLoading}>
+					{isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
 				</Button>
 			</form>
 		</Form>

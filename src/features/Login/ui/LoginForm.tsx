@@ -10,23 +10,37 @@ import {
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import type { LoginResponse } from '../api';
+import { useLogin } from '../lib/useLogin';
 import { loginFormSchema, type LoginFormValues } from '../model';
 
 interface LoginFormProps {
-	onSubmit?: (values: LoginFormValues) => void;
+	onSuccess?: (response: LoginResponse) => void;
 }
 
-const LoginForm = ({ onSubmit }: LoginFormProps) => {
+const LoginForm = ({ onSuccess }: LoginFormProps) => {
 	const form = useForm<LoginFormValues>({
 		resolver: zodResolver(loginFormSchema),
 	});
 
+	const { login, isLoading, error } = useLogin();
+
+	const handleSubmit = async (values: LoginFormValues) => {
+		const response = await login(values);
+		onSuccess?.(response);
+	};
+
 	return (
 		<Form {...form}>
 			<form
-				onSubmit={onSubmit ? form.handleSubmit(onSubmit) : undefined}
+				onSubmit={form.handleSubmit(handleSubmit)}
 				className="space-y-4"
 			>
+				{error && (
+					<div className="text-sm text-destructive bg-destructive/10 p-2 rounded">
+						{error}
+					</div>
+				)}
 				<FormField
 					control={form.control}
 					name="email"
@@ -53,8 +67,8 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
 						</FormItem>
 					)}
 				/>
-				<Button className="w-full" type="submit">
-					Войти
+				<Button className="w-full" type="submit" disabled={isLoading}>
+					{isLoading ? 'Вход...' : 'Войти'}
 				</Button>
 			</form>
 		</Form>

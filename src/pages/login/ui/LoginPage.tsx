@@ -1,24 +1,16 @@
 import { Button } from '@/components/ui/button';
 import LoginForm from '@/features/Login';
-import type { LoginFormValues } from '@/features/Login/model';
 import RegisterForm from '@/features/Register';
-import type { RegisterFormValues } from '@/features/Register/model';
 import { Wallet } from 'lucide-react';
 import { useState, type FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginPage: FC = () => {
 	const [isLogin, setIsLogin] = useState(true);
+	const navigate = useNavigate();
 
-	const handleSwitchForm = () => {
-		setIsLogin((prev) => !prev);
-	};
-
-	const handleLogin = (values: LoginFormValues) => {
-		console.log(values);
-	};
-
-	const handleRegister = (values: RegisterFormValues) => {
-		console.log(values);
+	const handleSuccess = () => {
+		navigate('/');
 	};
 
 	return (
@@ -35,14 +27,14 @@ export const LoginPage: FC = () => {
 				</div>
 				<div className="flex flex-col gap-2 w-full">
 					{isLogin ? (
-						<LoginForm onSubmit={handleLogin} />
+						<LoginForm onSuccess={handleSuccess} />
 					) : (
-						<RegisterForm onSubmit={handleRegister} />
+						<RegisterForm onSuccess={handleSuccess} />
 					)}
 					<Button
 						variant="ghost"
 						size="sm"
-						onClick={handleSwitchForm}
+						onClick={() => setIsLogin((prev) => !prev)}
 					>
 						{isLogin ? 'Создать аккаунт' : 'Уже есть аккаунт'}
 					</Button>
