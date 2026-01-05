@@ -1,7 +1,7 @@
 {
 	"name": "subsciption-manager",
 	"private": true,
-	"version": "0.3.0",
+	"version": "0.4.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite --host",
@@ -28,6 +28,7 @@
 		"react-day-picker": "^9.13.0",
 		"react-dom": "^19.2.0",
 		"react-hook-form": "^7.69.0",
+		"react-router-dom": "^7.11.0",
 		"tailwind-merge": "^3.4.0",
 		"tailwindcss": "^4.1.18",
 		"vaul": "^1.1.2",
