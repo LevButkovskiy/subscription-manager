@@ -8,6 +8,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useUser } from '@/entities/user/lib/useUser';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type { LoginResponse } from '../api';
@@ -19,6 +20,8 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ onSuccess }: LoginFormProps) => {
+	const { fetchUser } = useUser();
+
 	const form = useForm<LoginFormValues>({
 		resolver: zodResolver(loginFormSchema),
 	});
@@ -27,6 +30,7 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
 	const handleSubmit = async (values: LoginFormValues) => {
 		const response = await login(values);
+		await fetchUser();
 		onSuccess?.(response);
 	};
 
