@@ -1,4 +1,4 @@
-import ResponsiveDialog from '@/components/ResponsiveDialog/ResponsiveDialog';
+import ResponsiveDialog from '@/components/ResponsiveDialog';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';

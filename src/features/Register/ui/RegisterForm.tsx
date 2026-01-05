@@ -1,3 +1,4 @@
+import PasswordInput from '@/components/PasswordInput';
 import { Button } from '@/components/ui/button';
 import {
 	Form,
@@ -62,7 +63,7 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
 						<FormItem>
 							<FormLabel>Пароль</FormLabel>
 							<FormControl>
-								<Input type="password" {...field} />
+								<PasswordInput {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -75,7 +76,7 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
 						<FormItem>
 							<FormLabel>Подтвердите пароль</FormLabel>
 							<FormControl>
-								<Input type="password" {...field} />
+								<PasswordInput {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
